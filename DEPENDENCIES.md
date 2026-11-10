@@ -51,7 +51,7 @@
 | `node_modules/.pnpm/` | **81 MB** | 虚拟仓库，25 个包条目 | ✅ 已产生 |
 | `pnpm-lock.yaml` | 已生成 | 版本锁定，随本地 git 提交 | ✅ 已产生 |
 | `pnpm-workspace.yaml` | 已生成 | `allowBuilds: esbuild: true`、`minimumReleaseAgeExclude: vite@7.3.8` | ✅ 已产生 |
-| `dist/`（构建产物） | 待构建后填写 | 构建完成再统计 | ☐ 待产生 |
+| `dist/`（构建产物） | **729 KB** | `pnpm build` 产出：index.html 0.61 KB / CSS 4.35 KB（gzip 1.59 KB）/ JS 734.42 KB（gzip 196.16 KB）；67 个模块 | ✅ 已产生 |
 
 ## 4. 表 B · 写入系统仓库的依赖 / 全局包
 
