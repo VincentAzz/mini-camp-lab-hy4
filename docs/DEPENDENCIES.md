@@ -7,7 +7,7 @@
 | 项 | 值 |
 | --- | --- |
 | 最近更新 | 2026-11-10 |
-| 阶段 | P1~P9 实现中 |
+| 阶段 | 已交付并发布（P0~P10 完成，文档归集 `docs/`，GitHub + Pages） |
 | 直接依赖数 | **4**（1 production + 3 dev） |
 | 虚拟仓库包条目 | 25（含传递依赖） |
 | `pnpm install` 执行次数 | 2（首次被 pnpm 12 的 `ERR_PNPM_IGNORED_BUILDS` 拦截，补 `allowBuilds: esbuild: true` 后成功） |
@@ -88,4 +88,5 @@
 | --- | --- | --- |
 | 2026-11-09 | 建立统计骨架；确认 P0 阶段零依赖、零安装命令、零项目内占用 | 0 |
 | 2026-11-10 | 首次 `pnpm install`：安装 4 个直接依赖 / 23 个包，被 pnpm 12 的 `ERR_PNPM_IGNORED_BUILDS`（esbuild 构建脚本）拦截 | 约 86 MB（表观） |
-| 2026-11-10 | 在 `pnpm-workspace.yaml` 补 `allowBuilds: esbuild: true` 后重跑 `pnpm install` 成功；确认无全局包写入、无远程仓库操作 | 0 |
+| 2026-11-10 | 在 `pnpm-workspace.yaml` 补 `allowBuilds: esbuild: true` 后重跑 `pnpm install` 成功；确认无全局包写入，**实现阶段**未配置远程仓库 | 0 |
+| 2026-11-10 | 收尾：全部文档归集 `docs/`、提示词复制为 `docs/PROMPT.md`；按用户新授权配置远程 `origin` 并推送 / 部署 Pages。依赖未发生任何变化，未新增包 | 0 |
