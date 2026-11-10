@@ -21,8 +21,10 @@
 
 | 项 | 地址 |
 | --- | --- |
-| GitHub 仓库 | <https://github.com/VincentAzz/mini-camp-lab-hy4> |
-| GitHub Pages | <https://vincentazz.github.io/mini-camp-lab-hy4/> |
+| GitHub 仓库 | <https://github.com/VincentAzz/mini-camp-lab-hy4>（公开） |
+| GitHub Pages | <https://vincentazz.github.io/mini-camp-lab-hy4/>（已上线） |
+
+> 仓库创建时误选为私有（免费计划不支持私有仓库 Pages），用户于 2026-11-10 改为公开后启用成功；站点首页与 JS 资源均已验证返回 HTTP 200。CI 会随 `master` 推送自动重建并发布 `gh-pages`。
 
 ## 文档索引（全部位于 `docs/`，本目录会被 GitHub 识别为仓库首页 README）
 

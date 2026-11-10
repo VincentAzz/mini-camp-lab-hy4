@@ -4,7 +4,7 @@
 >
 > | 项 | 值 |
 > | --- | --- |
-> | 版本 | v0.6（收尾版：文档归集 `docs/`、远程仓库与 Pages 发布授权变更同步） |
+> | 版本 | v0.7（收尾完成版：文档归集、GitHub 推送与 Pages 上线、CI 修复记录） |
 > | 日期 | 2026-11-10 |
 > | 依据 | `PROMPT.md`（同目录；工作目录外层提示词原件的字节一致副本，外层原件保留） |
 > | 项目根目录 | `mini-camp-lab/`；**全部文档位于 `mini-camp-lab/docs/`** |
@@ -789,7 +789,7 @@ P0 文档（当前） ──[用户明确同意]──> P1 编码
 | 性能 | 内置预览 → `.check/perf.json` | ✅ 60 fps、21,184 三角形、674 Draw Call、326 geometry、10 texture |
 | 浏览器约束 | 全程仅内置预览打开 `http://127.0.0.1:5173` | ✅ 未启动任何系统浏览器，未用 `start` / `open` |
 | 删除红线 | 全程无删除操作 | ✅ 无通配符 / 递归删除；`node_modules`、`dist` 均保留 |
-| 版本管理 | 实现阶段 `git remote -v` 为空；收尾阶段 `origin` 指向 GitHub | ✅ 实现阶段仅本地提交、无远程 / 无 push / 无对外发布；**收尾阶段按用户 2026-11-10 明确授权**推送 `master` 并部署 Pages（见 §8.5 授权变更） |
+| 版本管理 | 实现阶段 `git remote -v` 为空；收尾阶段 `origin` 指向 GitHub | ✅ 实现阶段仅本地提交、无远程 / 无 push / 无对外发布；**收尾阶段按用户 2026-11-10 明确授权**推送 `master` 并部署 Pages（见 §8.5 授权变更）；站点已上线验证（status `built`、首页与 JS HTTP 200） |
 | 工作目录既有文件 | 提示词文件 21890 字节、时间戳未变 | ✅ 未改动 / 未移动 / 未删除；另复制一份为 `docs/PROMPT.md`（`cmp` 字节一致） |
 
 **发现的穿模问题与修复**：运行时真实包围盒审计首次发现 `overland` 车身长度超出登记占位（4 个场景各 1 处），已把 `VEHICLES.overland.halfLength` 由 3.60 校正为 4.10，并把高度校验由硬编码上限改为按登记 height 判定；复跑后 0 冲突。这道审计是「重点关注模型穿模」要求落地后真正抓到并修掉问题的环节。
@@ -940,3 +940,4 @@ export const DEFAULT_COMBO: ComboState = {
 | v0.4 | 2026-11-10 | 交付终版：§11 逐节验收表全部勾选并新增 §11.1 最终自查执行记录（全量校验结果、运行时审计发现并修复的 overland 占位问题、60fps 实测、Draw Call 686 未达 300 预算的取舍）；§5.7 性能预算按实测回写 |
 | v0.5 | 2026-11-10 | 追加修复（用户反馈）：车轮方向异常 —— `PropsLibrary.wheel()` 改绕 X 轴旋转，同步修正 overland 胎纹、typeC/trailer 车尾备胎、wasteland 残骸车轮与轮胎堆；C 型 / van / trailer 遮阳棚悬空连贯化；新增运行时「车轮朝向专项校验」与 `DELIVERY.md` 最终交付说明。最终实测 60 fps / 674 Draw Call / 20 组 0 冲突 / 400 组合 0 问题 / wheelIssues 0 |
 | v0.6 | 2026-11-10 | **收尾同步**：全部文档 `git mv` 归集到 `docs/`，外层提示词复制为 `docs/PROMPT.md`（原件保留、字节一致）；依据路径统一改为 `PROMPT.md`；按用户 2026-11-10 明确授权，把原 9-5「严禁远程 / push / 对外发布」在实现阶段严格遵守的基础上，补充收尾阶段的授权变更（新增 `origin`、推送 `master`、部署 GitHub Pages、停止本地服务），并同步 §1.9 / §8.5 / §11.1 / §11 自查表与 `TASKS.md`、`DEPENDENCIES.md`、`README.md`、`DELIVERY.md` |
+| v0.7 | 2026-11-10 | **发布完成**：仓库由用户改为公开后 Pages 启用成功（免费计划不支持私有仓库 Pages）；CI 首次发布因 `gh-pages` ref 冲突失败，增加 `force_orphan: true` 后 workflow #2 成功；站点 `https://vincentazz.github.io/mini-camp-lab-hy4/` 状态 `built`、首页与 JS 资源 HTTP 200；本地 dev 服务已停止。文档版本与发布状态同步至 `docs/` 全部文件 |

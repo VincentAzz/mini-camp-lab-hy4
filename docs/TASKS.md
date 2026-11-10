@@ -9,7 +9,7 @@
 | 项 | 值 |
 | --- | --- |
 | 最近更新 | 2026-11-10 |
-| 依据文档 | `DESIGN.md` v0.6（收尾版：文档归集、远程与 Pages 发布授权变更） |
+| 依据文档 | `DESIGN.md` v0.7（收尾完成版：文档归集、GitHub 推送、Pages 上线） |
 | 依据提示词 | `PROMPT.md`（同目录副本；工作目录外层原件保留） |
 | 已完成实现阶段 | P1 / P2 / P3 / P4 / P5 / P6 / P7 / P8 / P9 / P10 |
 | 进行中 | 无 |
@@ -189,3 +189,4 @@
 | 2026-11-10 | P10 全文逐节自查完成；三份文档升终版；`DESIGN.md` v0.4 增加 §11.1 最终自查执行记录 |
 | 2026-11-10 | 额度恢复后追加修复（用户反馈「车轮方向异常」）：`wheel()` 改绕 X 轴旋转、overland 胎纹圆周改向、typeC/trailer 备胎改用竖立 wheel、wasteland 残骸车轮与轮胎堆方向/层距修正；另系统修复 C 型/van/trailer 遮阳棚悬空。新增车轮朝向专项审计（wheelIssues 0），重启内置预览复跑全量校验全绿，产出 `DELIVERY.md` |
 | 2026-11-10 | **收尾**：全部文档 `git mv` 归集 `docs/`，复制 `docs/PROMPT.md`；按用户新授权新增远程 `origin`、推送 GitHub、配置 Pages 部署 workflow、停止本地服务；`DESIGN.md` 升 v0.6 并同步全部文档的 9-5 约束描述与提示词引用路径 |
+| 2026-11-10 | **发布完成**：用户将误选为私有的仓库改为公开（免费计划不支持私有仓库 Pages），Pages 启用成功；CI 首次发布因 `gh-pages` ref 冲突失败，加 `force_orphan: true` 后 workflow #2 成功；站点与 JS 资源 HTTP 200、Pages 状态 `built`；`DESIGN.md` 升 v0.7 并同步全部文档发布状态 |

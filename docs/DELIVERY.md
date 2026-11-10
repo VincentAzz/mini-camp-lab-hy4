@@ -112,9 +112,16 @@ pnpm validate:contracts   # 模块契约与注册表自动装配校验
 | 远程 | `origin`（HTTPS，使用本机已配置的凭据） |
 | 推送分支 | `master` |
 | Pages 站点 | <https://vincentazz.github.io/mini-camp-lab-hy4/> |
-| 部署方式 | `.github/workflows/deploy-pages.yml` 构建 `dist/` 并发布到 `gh-pages` 分支 |
+| 部署方式 | `.github/workflows/deploy-pages.yml` 构建 `dist/` 并发布到 `gh-pages` 分支（legacy 发布源，`gh-pages` / root） |
 
 未执行 `gh repo create` 等新建仓库操作（仓库由用户创建）。
+
+**发布过程中的两处实际情况与处理**：
+
+1. **仓库可见性**：仓库创建时误选为**私有**，GitHub 免费计划不支持私有仓库启用 Pages，首次 API 启用返回 `422 Your current plan does not support GitHub Pages for this repository`。用户于 2026-11-10 将仓库改为**公开**后重新启用成功（`POST /repos/.../pages` 返回 201，`build_type: legacy`，`source: gh-pages /`）。
+2. **CI 首次运行失败**：构建链路（checkout / pnpm / Node / install / build）全部成功，仅发布步骤因本地先手动推送了 `gh-pages`、action 以非快进方式推同名分支被拒（`cannot lock ref 'refs/heads/gh-pages': reference already exists`）。已为 `peaceiris/actions-gh-pages@v4` 增加 `force_orphan: true`，重跑后 workflow #2 **conclusion: success**，`gh-pages` 由 CI 正常接管。
+
+**上线验证**（2026-11-10）：Pages 状态 `built`、站点 `GET /` 返回 **HTTP 200** 且 HTML 内容与标题正确、JS 静态资源 `assets/index-C4IYf1_c.js` 返回 **HTTP 200**；`public: true`、`https_enforced: true`。
 
 ### 7.3 本地服务
 
