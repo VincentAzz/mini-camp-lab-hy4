@@ -40,4 +40,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           publish_branch: gh-pages
+          # 站点分支是纯静态产物的孤立分支；强制覆盖可避免与已有 gh-pages 历史冲突
+          force_orphan: true
           keep_files: false

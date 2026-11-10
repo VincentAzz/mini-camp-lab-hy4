@@ -2,6 +2,7 @@ node_modules/
 dist/
 .vite/
 .check/
+.pages-worktree/
 *.local
 .DS_Store
 Thumbs.db
