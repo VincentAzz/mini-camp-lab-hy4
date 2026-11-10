@@ -2,7 +2,7 @@
 
 一个网页端三渲二微缩房车营地小玩具：4 场景 × 5 车型 × 4 时间 × 5 天气 = **400 种组合**自由巡游，默认第一眼是「海崖 · C 型房车 · 黄昏 · 晴朗」。所有几何与贴图均由代码程序化生成，运行时零网络依赖。
 
-> 需求原文：`PROMPT.md`（由工作目录外层 `A-多场景房车营地小玩具-完整提示词.md` 原样复制；外层原件保留未改动）
+> 需求原文：`PROMPT.md`
 
 ## 当前状态
 
@@ -24,7 +24,6 @@
 | GitHub 仓库 | <https://github.com/VincentAzz/mini-camp-lab-hy4>（公开） |
 | GitHub Pages | <https://vincentazz.github.io/mini-camp-lab-hy4/>（已上线） |
 
-> 仓库创建时误选为私有（免费计划不支持私有仓库 Pages），用户于 2026-11-10 改为公开后启用成功；站点首页与 JS 资源均已验证返回 HTTP 200。CI 会随 `master` 推送自动重建并发布 `gh-pages`。
 
 ## 文档索引（全部位于 `docs/`，本目录会被 GitHub 识别为仓库首页 README）
 
