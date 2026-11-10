@@ -409,11 +409,14 @@ export class PropsLibrary {
   // ---------- 车辆 / 内饰基础件 ----------
   wheel(r = 0.42, w = 0.22): THREE.Group {
     const g = this.group('wheel');
+    // CylinderGeometry 轴向为 Y：必须绕 X 轴转 90°，圆盘平面才会落在 X-Y、
+    // 法线沿 Z（从默认相机所在的 +Z 侧看是正圆），轮宽 w 沿 Z。
+    // 若绕 Z 轴转，圆盘会立在 Y-Z 平面、与车体侧面垂直（侧面看只是一条竖线）。
     const t = makeMesh(geo.cyl(r, r, w, 16), this.mat(0x35383c), 0, r, 0);
-    t.rotation.z = Math.PI / 2;
+    t.rotation.x = Math.PI / 2;
     g.add(t);
     const hub = makeMesh(geo.cyl(r * 0.48, r * 0.48, w + 0.02, 12), this.mat(0xa8adb0), 0, r, 0);
-    hub.rotation.z = Math.PI / 2;
+    hub.rotation.x = Math.PI / 2;
     g.add(hub);
     return g;
   }

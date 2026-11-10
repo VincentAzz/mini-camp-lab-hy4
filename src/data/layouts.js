@@ -35,7 +35,7 @@ export const VEHICLES = Object.freeze({
   typeA:    { halfLength: 5.00, halfWidth: 1.55, height: 3.65, deployZ: 4.20, deployMinusZ: 1.75 },
   trailer:  { halfLength: 5.80, halfWidth: 1.45, height: 3.35, deployZ: 4.05, deployMinusZ: 1.65 },
   van:      { halfLength: 3.25, halfWidth: 1.25, height: 2.95, deployZ: 3.95, deployMinusZ: 1.45 },
-  overland: { halfLength: 3.60, halfWidth: 1.35, height: 4.25, deployZ: 4.15, deployMinusZ: 1.55 },
+  overland: { halfLength: 4.10, halfWidth: 1.35, height: 4.25, deployZ: 4.15, deployMinusZ: 1.55 },
 });
 
 /**

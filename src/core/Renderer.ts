@@ -53,6 +53,9 @@ export class RenderCore {
       this.fps = this.fpsFrames / this.fpsAcc;
       this.fpsFrames = 0;
       this.fpsAcc = 0;
+      if (import.meta.env.DEV) {
+        (window as unknown as { __campStats?: unknown }).__campStats = this.stats;
+      }
     }
   }
 

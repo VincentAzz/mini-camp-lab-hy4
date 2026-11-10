@@ -24,7 +24,7 @@ export function contentBox(obj: THREE.Object3D): THREE.Box3 {
   const instanceMatrix = new THREE.Matrix4();
   const worldMatrix = new THREE.Matrix4();
   obj.traverse((o) => {
-    if (o.userData.noBounds) return;
+    if (o.userData.noBounds || o.userData.isOutline) return;
     if (!(o instanceof THREE.Mesh) || !o.geometry) return;
     const attr = o.geometry.getAttribute('position');
     if (!attr) return;
@@ -157,8 +157,8 @@ export class LayoutValidator {
           issues.push(`车辆 ${this.vehicleId} 车身长度超出登记占位`);
         }
         if (v.maxZ > fp.deployZ + 0.25) issues.push(`车辆 ${this.vehicleId} 展开机构超出登记占位`);
+        if (v.maxY > fp.height + 0.35) issues.push(`车辆 ${this.vehicleId} 高度超出登记占位`);
       }
-      if (v.maxY > 6.0) issues.push(`车辆 ${this.vehicleId} 高度超出取景上限`);
     }
     return issues;
   }

@@ -64,7 +64,11 @@ export function outlineGroup(root: THREE.Object3D, opts: OutlineOptions = {}): n
   const targets: THREE.Mesh[] = [];
   root.traverse((o) => {
     if (!(o instanceof THREE.Mesh)) return;
-    if (o.userData.isOutline || o.userData.noOutline) return;
+    // 实例化小碎件不描边：反壳只会在原型位置生成一个孤立的壳，既难看又像穿模
+    if ((o as THREE.InstancedMesh).isInstancedMesh) return;
+    if (o.userData.noBounds || o.userData.isOutline || o.userData.noOutline) return;
+    // 自发光体 / 玻璃 / 贴花用 MeshBasicMaterial，描边会压掉发光感
+    if (o.material instanceof THREE.MeshBasicMaterial) return;
     if (Array.isArray(o.material) || o.material.transparent) return;
     if (opts.minSize) {
       o.geometry.computeBoundingSphere();

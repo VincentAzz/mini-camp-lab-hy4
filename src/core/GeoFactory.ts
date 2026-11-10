@@ -55,7 +55,9 @@ export function makeMesh(
 ): THREE.Mesh {
   const m = new THREE.Mesh(geometry, material);
   m.position.set(x, y, z);
-  m.castShadow = true;
+  // 小碎件不投射阴影：显著降低 shadow pass 的 Draw Call，主轮廓仍完整投影
+  if (!geometry.boundingSphere) geometry.computeBoundingSphere();
+  m.castShadow = (geometry.boundingSphere?.radius ?? 1) >= 0.14;
   m.receiveShadow = true;
   return m;
 }

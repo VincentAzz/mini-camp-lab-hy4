@@ -177,8 +177,9 @@ const typeC: VehicleModule = {
     for (const x of [0.20, 2.55]) {
       canopy.add(L.pole(0.035, 2.30, 0x8a9298, x, 0, 3.62));
     }
-    const shade = cloth(2.60, 1.20, 0xe8d9b8, { amplitude: 0.055, key: 'canopyCloth' });
-    shade.position.set(1.38, 2.48, 3.00);
+    // 棚布从车身 +Z 面 z≈1.20 连续延伸到立柱 z≈3.62，消除中间悬空
+    const shade = cloth(2.60, 2.42, 0xe8d9b8, { amplitude: 0.055, key: 'canopyCloth' });
+    shade.position.set(1.38, 2.48, 2.41);
     canopy.add(shade);
     root.add(canopy);
     root.add(L.box(1.05, 0.09, 0.36, 0x8d9498, 1.35, 0.40, 1.62));
@@ -188,7 +189,8 @@ const typeC: VehicleModule = {
     root.add(L.box(0.10, 0.05, 0.06, 0x6c7b84, 0.14, 1.52, 1.27));
     for (const x of [-2.4, 3.0]) root.add(L.box(0.72, 0.34, 0.05, 0xd3cbb7, x, 0.66, 1.22));
     root.add(L.pole(0.018, 0.62, 0x6f7a80, -2.9, 2.60, -0.6));
-    const spare = L.tire(0.34, 0.16); spare.position.set(3.72, 1.05, 0); spare.rotation.y = Math.PI / 2; root.add(spare);
+    // 车尾备胎：wheel() 法线沿 Z，绕 Y 转 90° 后法线沿 X，轮盘正对车尾（从 +X 看是正圆）
+    const spare = L.wheel(0.34, 0.16); spare.position.set(3.72, 1.05, 0); spare.rotation.y = Math.PI / 2; root.add(spare);
 
     // ---------- 内饰灯光钩子：夜间 / 黄昏车内暖光更突出 ----------
     const cabinLight = new THREE.PointLight(0xffd39a, 0, 9, 2);
