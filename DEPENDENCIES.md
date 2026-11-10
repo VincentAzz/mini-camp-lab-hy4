@@ -1,71 +1,74 @@
 # 「微缩营地巡游」· 项目依赖统计文档（DEPENDENCIES.md）
 
-> **当前状态：零依赖。**
-> 依据提示词第九节第 1 点，用户审阅 `DESIGN.md` 并明确同意前，**不进行任何脚手架搭建或依赖安装**。因此本阶段未执行 `pnpm install` / `pnpm create` / 任何全局安装，也未产生 `node_modules`、虚拟仓库新增占用或构建缓存。
-> 本文件随每次依赖变化同步更新，记录每个依赖的**名称、版本、用途与体积**，便于统计磁盘空间去向；项目结束时保留最终版。
+> **当前状态：已安装 4 个直接依赖，均已锁定版本。**
+> 用户于 2026-11-10 审阅通过 `DESIGN.md` 后进入实现阶段，执行了 `pnpm install`。
+> 本文件随每次依赖变化同步更新，记录每个依赖的**名称、版本、用途与体积**；项目结束时保留最终版。
 
 | 项 | 值 |
 | --- | --- |
-| 最近更新 | 2026-11-09 |
-| 阶段 | P0 文档审阅（实现未启动） |
-| 已安装依赖数 | **0** |
-| 已执行安装命令数 | **0** |
-| 包管理器 | pnpm 12.3.4（本机已装，非本项目引入） |
-| node | v22.22.2（本机已装，非本项目引入） |
+| 最近更新 | 2026-11-10 |
+| 阶段 | P1~P9 实现中 |
+| 直接依赖数 | **4**（1 production + 3 dev） |
+| 虚拟仓库包条目 | 25（含传递依赖） |
+| `pnpm install` 执行次数 | 2（首次被 pnpm 12 的 `ERR_PNPM_IGNORED_BUILDS` 拦截，补 `allowBuilds: esbuild: true` 后成功） |
+| 包管理器 | pnpm 12.3.4（本机预装，本项目未做全局安装） |
+| node | v22.22.2（本机预装） |
+| 全局包 | **无**（`pnpm list -g --depth 0` → No global packages found） |
 
 ## 1. 统计口径与方法
 
-统计范围按提示词第十节第 3 点分为两类：
-
-| 类别 | 统计内容 | 采集方式（实现阶段执行，本阶段未执行） |
+| 类别 | 统计内容 | 采集命令 |
 | --- | --- | --- |
-| A. 项目内依赖 | `package.json` 的 `dependencies` / `devDependencies` | 读取 `package.json` 与 `pnpm-lock.yaml`，逐包记录版本与用途 |
-| A. 项目内占用 | `node_modules/` 实际体积、pnpm 虚拟仓库（`node_modules/.pnpm/`）体积 | `du -sh node_modules`（Git Bash）或 PowerShell 递归求和；`pnpm store path` 定位全局内容寻址仓库 |
-| A. 构建产物 | `dist/` 体积 | `du -sh dist` |
-| B. 系统仓库依赖 | pnpm / npm 全局安装的包及其所在位置 | `pnpm list -g --depth 0`、`pnpm root -g`；记录全局包路径与体积 |
-| B. 系统级占用 | pnpm 全局 store 体积 | `pnpm store path` → 对该目录做体积统计（只读） |
+| A. 项目内依赖 | `package.json` 的 `dependencies` / `devDependencies` | `pnpm list --depth 0`、`pnpm-lock.yaml` |
+| A. 项目内占用 | `node_modules/` 表观体积、虚拟仓库体积 | `du -sh node_modules`、`du -sh node_modules/.pnpm` |
+| A. 单包体积 | 各直接依赖在虚拟仓库中的目录体积 | `du -sh node_modules/.pnpm/<name>@<version>` |
+| A. 构建产物 | `dist/` 体积 | `du -sh dist`（构建后填写） |
+| B. 系统仓库依赖 | 全局安装的包及位置 | `pnpm list -g --depth 0`、`pnpm root -g` |
+| B. 系统级占用 | pnpm 全局内容寻址仓库 | `pnpm store path` → `du -sh` |
 
-> 注：pnpm 采用硬链接 + 全局内容寻址仓库，同一包在不同项目间不重复占用磁盘；统计时会分别记录「项目 `node_modules` 表观体积」与「全局 store 实际增量」，避免重复计算。
+> 注：pnpm 使用硬链接 + 全局内容寻址仓库，同一份包内容在不同项目间不重复占用磁盘。因此 `node_modules` 的 86M 是**表观体积**，实际新增磁盘占用远小于此；全局 store 的 1.9G 是本机所有 pnpm 项目共享的历史总量，**不是本项目引入的增量**。
 
-## 2. 表 A · 项目内依赖（计划引入，**尚未安装**）
+## 2. 表 A · 项目内依赖（已安装）
 
-> 以下为 `DESIGN.md` §2.3 的计划清单，仅供审阅；**版本与体积均为待填**，安装后即时填写。
-
-| 包名 | 类别 | 计划版本 | 用途 | 安装后体积 | 状态 |
+| 包名 | 类别 | 版本 | 用途 | 虚拟仓库内体积 | 状态 |
 | --- | --- | --- | --- | --- | --- |
-| `three` | dependencies | 待定（安装时锁定） | 三维渲染核心、OrbitControls、MeshToonMaterial、InstancedMesh | 待测 | ☐ 未安装 |
-| `vite` | devDependencies | 待定（安装时锁定） | 开发服务器与静态构建 | 待测 | ☐ 未安装 |
-| `typescript` | devDependencies | 待定（安装时锁定） | 类型检查与编译 | 待测 | ☐ 未安装 |
-| `@types/three` | devDependencies | 待定（安装时锁定） | Three.js 类型声明 | 待测 | ☐ 未安装 |
+| `three` | dependencies | 0.187.0 | 三维渲染核心、OrbitControls、MeshToonMaterial、InstancedMesh、RoundedBoxGeometry、BufferGeometryUtils | 23 MB | ✅ 已安装 |
+| `vite` | devDependencies | 7.3.8 | 开发服务器、模块 glob 自动注册、静态构建 | 2.3 MB（其传递依赖 esbuild / rollup 等另计） | ✅ 已安装 |
+| `typescript` | devDependencies | 5.9.3 | 类型检查（`pnpm typecheck`）与编译 | 23 MB | ✅ 已安装 |
+| `@types/three` | devDependencies | 0.187.0 | Three.js 类型声明 | 4.4 MB | ✅ 已安装 |
 
-**明确不引入**：UI 框架、状态管理库、动画库、后处理库、图标字体、外部字体、任何运行时 CDN 或网络资源（理由见 `DESIGN.md` §2.2）。
+**明确不引入**：UI 框架、状态管理库、动画库、后处理库、图标字体、外部字体、任何运行时 CDN 或网络资源（理由见 `DESIGN.md` §2.2）。运行时零网络请求已由「所有贴图 Canvas 程序化生成 + 内联 SVG 图标 + 系统字体栈」保证。
+
+### 版本选择说明
+
+查询到最新版本为 three 0.187.0 / vite 8.3.7 / typescript 7.0.2 / @types/three 0.187.0。刻意选用 **Vite 7.3.8 + TypeScript 5.9.3** 而非刚发布的 Vite 8 / TS 7，规避新版本工具链与 `@types/three` 的兼容不确定性；回写至 `DESIGN.md` 附录 D。
 
 ## 3. 表 A · 项目内磁盘占用
 
 | 目录 / 项 | 体积 | 说明 | 状态 |
 | --- | --- | --- | --- |
-| `node_modules/` | — | 尚未创建 | ☐ 未产生 |
-| `node_modules/.pnpm/`（虚拟仓库） | — | 尚未创建 | ☐ 未产生 |
-| `dist/`（构建产物） | — | 尚未构建 | ☐ 未产生 |
-| `pnpm-lock.yaml` | — | 尚未生成 | ☐ 未产生 |
+| `node_modules/` | **86 MB** | 表观体积（硬链接） | ✅ 已产生 |
+| `node_modules/.pnpm/` | **81 MB** | 虚拟仓库，25 个包条目 | ✅ 已产生 |
+| `pnpm-lock.yaml` | 已生成 | 版本锁定，随本地 git 提交 | ✅ 已产生 |
+| `pnpm-workspace.yaml` | 已生成 | `allowBuilds: esbuild: true`、`minimumReleaseAgeExclude: vite@7.3.8` | ✅ 已产生 |
+| `dist/`（构建产物） | 待构建后填写 | 构建完成再统计 | ☐ 待产生 |
 
 ## 4. 表 B · 写入系统仓库的依赖 / 全局包
-
-> 本阶段**未向系统仓库写入任何东西**。以下仅记录本机既有环境（只读确认，非本项目引入、非本项目安装）。
 
 | 名称 | 版本 | 用途 | 位置 | 体积 | 是否本项目引入 |
 | --- | --- | --- | --- | --- | --- |
 | node | v22.22.2 | 运行时 | 本机预装 | — | 否 |
-| pnpm | 12.3.4 | 包管理器 | 本机预装（全局位置待 `pnpm root -g` 确认） | — | 否 |
+| pnpm | 12.3.4 | 包管理器 | 本机预装 | — | 否 |
 | git | 2.55.0.windows.3 | 本地版本管理 | 本机预装 | — | 否 |
+| 全局 npm / pnpm 包 | — | — | — | — | **无**（`pnpm list -g --depth 0` 返回 No global packages found） |
 
-> 提示词第十节第 3 点要求统计「写入系统仓库的依赖（如 pnpm / npm 全局安装的包及其所在位置）」。若实现阶段出现任何全局安装，必须在此新增一行记录名称、版本、用途、位置与体积。
+**本项目未向系统仓库写入任何依赖。** 全局内容寻址仓库 `E:\_Dev\node\pnpm-store\v11` 当前总量 1.9 GB，为本机历史共享缓存，其中本项目新增部分为上述 4 个包的内容寻址文件（硬链接到项目内，不额外重复占用）。
 
 ## 5. 依赖变化时的更新规则
 
 1. 每次 `pnpm install` / 增删包 / 升级版本后，立即更新表 A 的版本、用途与体积，并重新统计表 A 磁盘占用。
 2. 每次出现全局安装，立即更新表 B。
-3. 每次变更在 §6 变更记录追加一行，注明变更内容与体积增量。
+3. 每次变更在 §7 变更记录追加一行，注明变更内容与体积增量。
 4. `pnpm-lock.yaml` 作为版本锁定的依据随本地 git 提交。
 
 ## 6. 清理红线（提示词第九节第 4 点）
@@ -77,10 +80,12 @@
 | 需清理构建缓存 | 同上，或列入交付说明「待清理项」交用户处理 | `rm -rf dist` / `del *` 等 |
 | 确需删除单文件 | 逐一显式完整绝对路径 + 移入系统回收站；无法可靠移入则保留并列入「待清理项」 | 直接删除 |
 
-**宁可换方法，不做大规模删除。** 任何理由（重装、清缓存、腾空间）都不放宽此红线。
+**宁可换方法，不做大规模删除。** 本项目截至目前**未执行任何删除操作**。
 
 ## 7. 变更记录
 
 | 日期 | 变更 | 体积增量 |
 | --- | --- | --- |
-| 2026-11-09 | 建立统计骨架；确认本阶段零依赖、零安装命令、零项目内占用 | 0 |
+| 2026-11-09 | 建立统计骨架；确认 P0 阶段零依赖、零安装命令、零项目内占用 | 0 |
+| 2026-11-10 | 首次 `pnpm install`：安装 4 个直接依赖 / 23 个包，被 pnpm 12 的 `ERR_PNPM_IGNORED_BUILDS`（esbuild 构建脚本）拦截 | 约 86 MB（表观） |
+| 2026-11-10 | 在 `pnpm-workspace.yaml` 补 `allowBuilds: esbuild: true` 后重跑 `pnpm install` 成功；确认无全局包写入、无远程仓库操作 | 0 |
